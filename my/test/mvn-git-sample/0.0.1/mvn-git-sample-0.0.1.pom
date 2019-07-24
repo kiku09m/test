@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>my.test</groupId>
+	<artifactId>mvn-git-sample</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <github.global.server>github</github.global.server>
+        <git.branchName>mvn</git.branchName>
+	</properties>
+
+    <distributionManagement>
+        <repository>
+            <id>internal.repos</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/${git.branchName}</url>
+        </repository>
+    </distributionManagement>
+
+	<build>
+		<plugins>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <!-- for GitBucket -->
+                    <!--<host>odawara.castle.test/gitbucket/api/v3/</host>
+                    <userName>kikuchi</userName>
+                    <password>258ea03b463920c1654029b7f239c05f8e94b7e7</password>
+                    <repositoryName>test</repositoryName>
+                    <repositoryOwner>kikuchi</repositoryOwner>
+                    <message>add for ${project.name}/${project.artifactId}/${project.version}</message>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <branch>refs/heads/master</branch>
+                    <outputDirectory>${project.build.directory}/master</outputDirectory>-->
+                    <!-- for github -->
+                    <server>github</server>
+                    <message>push for ${project.name}/${project.artifactId}/${project.version}</message>
+                    <outputDirectory> ${project.build.directory}/${git.branchName}</outputDirectory>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <branch>refs/heads/${git.branchName}</branch>
+                    <repositoryName>test</repositoryName>
+                    <repositoryOwner>kiku09m</repositoryOwner>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- localのjarを投入-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/jboss-servlet-api_3.0_spec-1.0.2.final.jar</outputDirectory>
+                </configuration>
+            </plugin> 
+		</plugins>
+	</build>
+
+</project>
