@@ -61,23 +61,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- localのjarを投入-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/jboss-servlet-api_3.0_spec-1.0.2.final.jar</outputDirectory>
-                </configuration>
-            </plugin> 
 		</plugins>
 	</build>
 
